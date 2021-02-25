@@ -1,0 +1,5 @@
+{
+  "jwtSecret": "someSecret",
+  "mongoUri": "mongodb+srv://Roman:1q2W3e4R@cluster0.mj3by.mongodb.net/reactGame?retryWrites=true&w=majority",
+  "baseUrl": "http://localhost:5000"
+}

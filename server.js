@@ -1,9 +1,8 @@
 const path = require('path')
 const mongoose = require('mongoose')
 const express = require('express')
-const config = require('config')
 const app = express()
-
+const config = require('config')
 
 const PORT = process.env.PORT || 5000
 
