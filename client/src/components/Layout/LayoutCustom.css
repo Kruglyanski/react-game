@@ -1,0 +1,97 @@
+.layout {
+    min-height: 100vh;
+    min-width: 1024px;
+    height: auto;
+}
+
+header.ant-layout-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+
+}
+
+header h1 {
+    width: 300px;
+    margin: 0 auto;
+
+}
+
+
+.ant-layout-header, .ant-layout-sider, .ant-menu-root {
+    background-color: #1f4d6a !important;
+
+}
+.logout {
+    float: left;
+
+}
+
+.logout a {
+    color: #fff !important;
+    cursor: pointer;
+}
+
+
+.me {
+    justify-self: end;
+}
+
+.me .name {
+    color: white;
+    float: left;
+    margin-right: 35px;
+}
+.site-layout-content {
+    padding: 20px;
+    display:grid;
+    grid-template-columns: 1fr 2fr 1fr ;
+}
+.game {
+    display: grid;
+    padding: 20px;
+    grid-template-columns: repeat(6, 120px);
+    grid-template-rows: repeat(4, 120px);
+    grid-gap: 40px;
+    width: 970px;
+    height: 650px;
+    background-color: white;
+    border: 5px solid #1f4d6a;
+    border-radius: 20px;
+    margin: 0 auto;
+}
+
+
+.footerContent {
+    width: 300px;
+    height: auto;
+    margin: 0 auto;
+
+}
+
+
+.rs {
+    width: 68px;
+    height: 25px;
+    background-image: url("https://rs.school/images/rs_school_js.svg");
+    background-size: cover;
+    margin: 0 auto;
+}
+
+
+
+/*.uploadWrapper {*/
+/*    font-size: 12px;*/
+/*    margin-right: 35px;*/
+/*    float: left;*/
+/*    width: 125px;*/
+
+/*}*/
+
+/*.uploadWrapper button {*/
+/*    font-size: 12px;*/
+/*    width: 125px;*/
+/*}*/
+
+/*.me .ant-upload-list-text-container {*/
+/*    display: none;*/
+/*}*/

@@ -1,0 +1,52 @@
+/*.card {*/
+
+/*    perspective: 1000;*/
+/*}*/
+
+
+
+/* flip on mouseclick */
+/*.card:hover .flippingContainer {*/
+/*    transform: rotateY(180deg);*/
+/*}*/
+.card.active .flippingContainer{
+    transform: rotateY(180deg);
+}
+
+
+.card, .front, .back {
+    width: 120px;
+    height: 120px;
+    border-radius: 20px;
+    justify-self: center;
+    font-size: 70px;
+    color: white;
+
+}
+
+/* здесь находится скорость перевертывания */
+.flippingContainer {
+    transition: 0.6s;
+    transform-style: preserve-3d;
+    position: relative;
+}
+
+/* скройте обратную сторону во время переворота */
+.front, .back {
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* лицевая сторона размещена над обратной */
+.front {
+    z-index: 2;
+    background-color: #0353f6;
+}
+
+/* обратная, изначально скрытая сторона */
+.back {
+    transform: rotateY(180deg);
+    background-color: #62e532;
+}
