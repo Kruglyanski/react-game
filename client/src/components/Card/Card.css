@@ -9,10 +9,13 @@
 /*.card:hover .flippingContainer {*/
 /*    transform: rotateY(180deg);*/
 /*}*/
-.card.active .flippingContainer{
+.card.activeCard .flippingContainer{
     transform: rotateY(180deg);
 }
 
+.card.errorCard .front{
+    background-color: crimson!important;
+}
 
 .card, .front, .back {
     width: 120px;

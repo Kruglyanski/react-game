@@ -15,14 +15,7 @@ const shuffledNumbers = shuffle(numbers)
 
 export const Game = () => {
     console.log(shuffledNumbers)
-    const slicedShuffle = shuffledNumbers.slice(0, modeCards)
-    console.log(slicedShuffle)
-
-
-    const [currentTargetNumber, setCurrentTargetNumber] = useState(0)
-
-
-
+   // const slicedShuffle = shuffledNumbers.slice(0, modeCards)
 
     return (
         <div className="game">
@@ -30,8 +23,10 @@ export const Game = () => {
             {shuffledNumbers.map(i =>{
 
                 if (i<=modeCards){
-
-                  return  <Card key={i} number={i} setCurrentTargetNumber={setCurrentTargetNumber} slicedShuffle={slicedShuffle}/>
+                  return <Card
+                      key={i}
+                      number={i}
+                    />
 
                 } else {
 
