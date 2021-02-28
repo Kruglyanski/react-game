@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import './Card.css'
 import {useDispatch, useSelector} from 'react-redux'
 import {setCurrentGameNumber, setIsError} from '../../redux/gameReducer'
+import {setIsModalVisible} from '../../redux/appReducer'
 import {RootStateType} from '../../redux/rootReducer'
 
 type PropsType = {
@@ -31,6 +32,7 @@ export const Card: React.FC<PropsType> = ({number, isCardsHidden, setIsCardsHidd
             dispatch(setIsError(true))
             setIsActiveClass(true)
             setIsErrorClass(true)
+            dispatch(setIsModalVisible(true))
             console.log('ne ok')
         }
     }
