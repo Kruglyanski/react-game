@@ -1,5 +1,7 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Card} from '../Card/Card'
+import {useDispatch, useSelector} from 'react-redux'
+import {RootStateType} from '../../redux/rootReducer'
 
 //Тасование Фишера — Йетса:
 function shuffle(array: Array<number>) {
@@ -16,16 +18,28 @@ const shuffledNumbers = shuffle(numbers)
 export const Game = () => {
     console.log(shuffledNumbers)
    // const slicedShuffle = shuffledNumbers.slice(0, modeCards)
-
+    const dispatch = useDispatch()
+    const isStarted =useSelector((state: RootStateType) => state.game.isStarted)
+    const [isCardsHidden, setIsCardsHidden] = useState(false)
+    useEffect(() => {
+        if (isStarted) {
+            setTimeout(() => {
+                setIsCardsHidden(true)
+            }, 3000)
+        }
+    }, [ dispatch])
     return (
-        <div className="game">
 
+        <div className="game">
+            {console.log('render')}
             {shuffledNumbers.map(i =>{
 
                 if (i<=modeCards){
                   return <Card
                       key={i}
                       number={i}
+                      isCardsHidden={isCardsHidden}
+                      setIsCardsHidden={setIsCardsHidden}
                     />
 
                 } else {

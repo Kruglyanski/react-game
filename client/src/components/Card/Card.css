@@ -9,11 +9,11 @@
 /*.card:hover .flippingContainer {*/
 /*    transform: rotateY(180deg);*/
 /*}*/
-.card.activeCard .flippingContainer{
+.card.hiddenCard .flippingContainer{
     transform: rotateY(180deg);
 }
 
-.card.errorCard .front{
+.errorCard .front{
     background-color: crimson!important;
 }
 

@@ -1,13 +1,20 @@
-import React  from 'react'
-import {Layout} from 'antd'
+import React from 'react'
+import {Button, Layout} from 'antd'
 import './LayoutCustom.css'
 
 import {Game} from '../Game/Game'
+import {useDispatch, useSelector} from 'react-redux'
+import {setIsStarted} from '../../redux/gameReducer'
+import {RootStateType} from '../../redux/rootReducer'
 
 const {Header, Content, Footer} = Layout
 
 export const LayoutCustom = () => {
-
+    const dispatch = useDispatch()
+    const isStarted = useSelector((state: RootStateType) => state.game.isStarted)
+    const startHandler = () => {
+        dispatch(setIsStarted(true))
+    }
 
     return (
         <Layout className="layout">
@@ -29,7 +36,22 @@ export const LayoutCustom = () => {
                     <div className="stats">
 
                     </div>
-                   <Game/>
+
+                    {
+                        isStarted
+                            ?
+                            <Game/>
+                            :
+                            <Button
+                                style={{width: 150, height: 50}}
+                                type="primary"
+                                onClick={startHandler}
+                                className="startButton"
+                            >
+                                Начать!
+                            </Button>
+                    }
+
                     <div className="controls">
 
 
