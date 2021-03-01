@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react'
 import './Card.css'
 import {useDispatch, useSelector} from 'react-redux'
-import {setCurrentGameNumber, setIsError} from '../../redux/gameReducer'
-import {setIsModalVisible} from '../../redux/appReducer'
+import {setCount, setCurrentGameNumber, setIsError, setIsStarted} from '../../redux/gameReducer'
+import {setIsModalVisible, setModalType} from '../../redux/appReducer'
 import {RootStateType} from '../../redux/rootReducer'
 
 type PropsType = {
@@ -13,6 +13,7 @@ type PropsType = {
 export const Card: React.FC<PropsType> = ({number, isCardsHidden, setIsCardsHidden}) => {
     const dispatch = useDispatch()
     const currentGameNumber = useSelector((state: RootStateType) => state.game.currentGameNumber)
+    const totalNumbers = useSelector((state: RootStateType) => state.game.totalNumbers)
     const isError = useSelector((state: RootStateType) => state.game.isError)
     const [isActiveClass, setIsActiveClass] = useState(false)
     const [isErrorClass, setIsErrorClass] = useState(false)
@@ -24,14 +25,24 @@ export const Card: React.FC<PropsType> = ({number, isCardsHidden, setIsCardsHidd
             setIsCardsHidden(true)
         }
 
+        if (currentGameNumber===totalNumbers) {
+            dispatch(setIsStarted(false))
+            console.log('okokok')
+            dispatch(setCount())
+            dispatch(setCurrentGameNumber(0))
+
+        }
+
         if (currentGameNumber === number) {
             console.log('ok')
-            dispatch(setCurrentGameNumber())
+            dispatch(setCurrentGameNumber(1))
             setIsActiveClass(true)
         } else {
             dispatch(setIsError(true))
             setIsActiveClass(true)
             setIsErrorClass(true)
+            dispatch(setIsStarted(false))
+            dispatch(setModalType('gameOver'))
             dispatch(setIsModalVisible(true))
             console.log('ne ok')
         }

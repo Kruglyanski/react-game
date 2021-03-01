@@ -5,13 +5,17 @@ type StateType = {
     isError: boolean
     currentGameNumber: number
     isStarted: boolean
+    totalNumbers: number
+    count: number
 }
 
 
 const initialState: StateType = {
     isError: false,
     currentGameNumber: 1,
-    isStarted: false
+    isStarted: false,
+    totalNumbers: 2,
+    count: 0
 }
 
 
@@ -19,10 +23,11 @@ const gameReducer = createSlice({
     name: 'postReducer',
     initialState,
     reducers: {
-        setCurrentGameNumber: (state) => {
+        setCurrentGameNumber: (state, action) => {
+
             return {
                 ...state,
-                currentGameNumber: state.currentGameNumber + 1
+                currentGameNumber: (action.payload === 0) ? 0 : state.currentGameNumber + action.payload
             }
         },
 
@@ -30,6 +35,13 @@ const gameReducer = createSlice({
             return {
                 ...state,
                 isError: action.payload
+            }
+        },
+
+        setCount: (state) => {
+            return {
+                ...state,
+                count: state.count + 1
             }
         },
 
@@ -45,6 +57,6 @@ const gameReducer = createSlice({
     extraReducers: {}
 })
 
-export const {setCurrentGameNumber, setIsError, setIsStarted} = gameReducer.actions
+export const {setCurrentGameNumber, setIsError, setIsStarted, setCount } = gameReducer.actions
 
 export default gameReducer.reducer
