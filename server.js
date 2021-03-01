@@ -8,7 +8,8 @@ const PORT = process.env.PORT || 5000
 
 
 app.use(express.json({extended: true}))
-app.use('/api/auth', require('./routes/auth'))
+app.use('/api/', require('./routes/auth'))
+app.use('/api/', require('./routes/stat'))
 
 
 if (process.env.NODE_ENV === 'production') {

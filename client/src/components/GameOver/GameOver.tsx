@@ -1,6 +1,6 @@
 import React from 'react'
 import {Button} from 'antd'
-import {setIsStarted} from '../../redux/gameReducer'
+import {setCurrentGameNumber, setIsStarted} from '../../redux/gameReducer'
 import {useDispatch} from 'react-redux'
 import { setIsModalVisible } from '../../redux/appReducer'
 import './GameOver.css'
@@ -10,6 +10,7 @@ export const GameOver = () => {
         dispatch(setIsStarted(false))
         dispatch(setIsModalVisible(false))
         dispatch(setIsStarted(true))
+        dispatch(setCurrentGameNumber(0))
     }
     return (
         <div className='gameOver'>

@@ -6,7 +6,6 @@ import {
     authLogin,
     cleanAuthError,
     loginFormChange,
-    setIsCustomModalVisible,
     setIsMessageShow
 } from '../../redux/authReducer'
 import {RootStateType} from '../../redux/rootReducer'

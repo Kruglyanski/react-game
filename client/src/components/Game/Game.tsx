@@ -4,8 +4,10 @@ import {useDispatch, useSelector} from 'react-redux'
 import {RootStateType} from '../../redux/rootReducer'
 
 
-const modeCards = 2
+const modes = {['Легко']: 4, ['Средне']: 6, ['Тяжело']: 8, ['Ад']: 16}
 const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
+
+
 //Тасование Фишера — Йетса:
 function shuffle(array: Array<number>) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -20,33 +22,40 @@ export const Game = () => {
     console.log(shuffledNumbers)
     const dispatch = useDispatch()
     const isStarted = useSelector((state: RootStateType) => state.game.isStarted)
+    const gameMode = useSelector((state: RootStateType) => state.game.gameMode)
     const [isCardsHidden, setIsCardsHidden] = useState(false)
     useEffect(() => {
 
+        setShuffledNumbers(shuffle(numbers))
 
-        console.log('use', shuffle(numbers), isStarted)
-         setShuffledNumbers(shuffle(numbers))
-        if (isStarted) {
-            const timeout = setTimeout(() => {
-                setIsCardsHidden(true)
-            }, 3000)
-            return clearTimeout(timeout)
-        }
+            if (isStarted) {
+                console.log('use', isStarted)
+                 const timeout =  setTimeout(() => {
+                    console.log('timeout')
+                    setIsCardsHidden(true)
+                }, 3000)
+                return () => clearTimeout(timeout)
+            }
+
+
 
 
     }, [isStarted])
+
+
     return (
 
         <div className="game">
             {console.log('render')}
             {shuffledNumbers.map(i => {
 
-                if (i <= modeCards) {
+                if (i <= modes[gameMode]) {
                     return <Card
                         key={i}
                         number={i}
                         isCardsHidden={isCardsHidden}
                         setIsCardsHidden={setIsCardsHidden}
+                        totalNumbers={modes[gameMode]}
                     />
 
                 } else {

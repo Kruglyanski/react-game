@@ -1,7 +1,14 @@
 import React, {useEffect, useState} from 'react'
 import './Card.css'
 import {useDispatch, useSelector} from 'react-redux'
-import {setCount, setCurrentGameNumber, setIsError, setIsStarted} from '../../redux/gameReducer'
+import {
+    createCount,
+    getRecords,
+    setCount,
+    setCurrentGameNumber,
+    setIsError,
+    setIsStarted
+} from '../../redux/gameReducer'
 import {setIsModalVisible, setModalType} from '../../redux/appReducer'
 import {RootStateType} from '../../redux/rootReducer'
 
@@ -9,12 +16,16 @@ type PropsType = {
     number: number | null
     isCardsHidden: boolean
     setIsCardsHidden: (arg: boolean) => void
+    totalNumbers: number
 }
-export const Card: React.FC<PropsType> = ({number, isCardsHidden, setIsCardsHidden}) => {
+const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X']
+
+export const Card: React.FC<PropsType> = ({number, isCardsHidden, setIsCardsHidden, totalNumbers}) => {
     const dispatch = useDispatch()
     const currentGameNumber = useSelector((state: RootStateType) => state.game.currentGameNumber)
-    const totalNumbers = useSelector((state: RootStateType) => state.game.totalNumbers)
-    const isError = useSelector((state: RootStateType) => state.game.isError)
+    const name = useSelector((state: RootStateType) => state.auth.name)
+    const count = useSelector((state: RootStateType) => state.game.count)
+    const isLetterMode = useSelector((state: RootStateType) => state.game.isLetterMode)
     const [isActiveClass, setIsActiveClass] = useState(false)
     const [isErrorClass, setIsErrorClass] = useState(false)
 
@@ -25,26 +36,30 @@ export const Card: React.FC<PropsType> = ({number, isCardsHidden, setIsCardsHidd
             setIsCardsHidden(true)
         }
 
+
+
+        if (currentGameNumber === number) {
+            console.log('ok<KKKK')
+            dispatch(setCurrentGameNumber(1))
+            setIsActiveClass(true)
+        } else {
+            dispatch(getRecords())
+            dispatch(setIsError(true))
+            dispatch(createCount({count, name}))
+            setIsActiveClass(true)
+            setIsErrorClass(true)
+            dispatch(setIsStarted(false))
+            dispatch(setModalType('gameOver'))
+            dispatch(setIsModalVisible(true))
+
+            console.log('ne ok')
+        }
         if (currentGameNumber===totalNumbers) {
             dispatch(setIsStarted(false))
             console.log('okokok')
             dispatch(setCount())
             dispatch(setCurrentGameNumber(0))
 
-        }
-
-        if (currentGameNumber === number) {
-            console.log('ok')
-            dispatch(setCurrentGameNumber(1))
-            setIsActiveClass(true)
-        } else {
-            dispatch(setIsError(true))
-            setIsActiveClass(true)
-            setIsErrorClass(true)
-            dispatch(setIsStarted(false))
-            dispatch(setModalType('gameOver'))
-            dispatch(setIsModalVisible(true))
-            console.log('ne ok')
         }
     }
 
@@ -63,7 +78,7 @@ export const Card: React.FC<PropsType> = ({number, isCardsHidden, setIsCardsHidd
         <div className={classNames.join(' ')} onClick={cardHandler}>
             <div className="flippingContainer">
                 <div className="front">
-                    {number}
+                    {!isLetterMode ? number : letters[number! - 1]}
                 </div>
                 <div className="back">
 

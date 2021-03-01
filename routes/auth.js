@@ -6,7 +6,7 @@ const {check, validationResult} = require('express-validator')
 const jwt = require('jsonwebtoken')
 const config = require('config')
 
-// /api/auth/register
+// /api/register
 
 router.post(
     '/register',
@@ -16,10 +16,11 @@ router.post(
             .isLength({min: 6}),
     ],
     async (req, res) =>{
+        console.log(req.body)
         try {
 
             const errors = validationResult(req)
-            console.log(req.body)
+
             if (!errors.isEmpty()) {
                 return res.status(400).json({errors: errors.array(), message: "Некоректные данные", ok: false})
             }
@@ -42,7 +43,7 @@ router.post(
         }
     })
 
-// /api/auth/login
+// /api/login
 
 router.post(
     '/login',
@@ -87,22 +88,7 @@ router.post(
 
     })
 
-//api/auth/me
-router.post(
-    '/me',
-    async (req, res) =>{
-        try {
 
-            const {userId} = req.body
-
-            const {name} = await User.findById(userId)
-
-            res.json({  name: name, ok: true})
-        } catch (e) {
-            res.status(500).json({message: "Что-то пошло не так, попробуйте ещё", ok: false})
-        }
-
-    })
 
 
 module.exports = router
