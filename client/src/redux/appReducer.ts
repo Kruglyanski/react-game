@@ -5,14 +5,15 @@ type StateType = {
     modalType: 'login' | 'register' | 'gameOver'
     volume: number
     isSoundEnabled: boolean
+    isPlayClicked: boolean
 }
 
 const initialState: StateType = {
     isModalVisible: false,
     modalType: 'login',
     volume: 0.5,
-    isSoundEnabled: true
-
+    isSoundEnabled: true,
+    isPlayClicked: false
 
 }
 
@@ -44,6 +45,12 @@ const appReducer = createSlice({
                 ...state,
                 isSoundEnabled: action.payload
             }
+        },
+        setIsPlayClicked: (state) => {
+            return {
+                ...state,
+                isPlayClicked: !state.isPlayClicked
+            }
         }
 
 
@@ -51,6 +58,6 @@ const appReducer = createSlice({
     extraReducers: {}
 })
 
-export const {setIsModalVisible, setModalType, setVolume, setIsSoundEnabled } = appReducer.actions
+export const {setIsModalVisible, setModalType, setVolume, setIsSoundEnabled, setIsPlayClicked } = appReducer.actions
 
 export default appReducer.reducer

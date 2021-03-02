@@ -2,7 +2,7 @@ import React from 'react'
 import {Button} from 'antd'
 import {setCount, setCurrentGameNumber, setIsStarted} from '../../redux/gameReducer'
 import {useDispatch, useSelector} from 'react-redux'
-import { setIsModalVisible } from '../../redux/appReducer'
+import {setIsModalVisible, setModalType} from '../../redux/appReducer'
 import './GameOver.css'
 import {RootStateType} from '../../redux/rootReducer'
 export const GameOver = () => {
@@ -13,15 +13,14 @@ export const GameOver = () => {
 
     const startHandler = () => {
         dispatch(setIsStarted(false))
+        dispatch(setModalType('gameOver'))
         dispatch(setIsModalVisible(false))
-        dispatch(setIsStarted(true))
         dispatch(setCurrentGameNumber(0))
         dispatch(setCount(0))
     }
     return (
         <div className='gameOver'>
             <h2>Игра окончена</h2>
-            <p>Вы проиграли!!!</p>
             <p>Ваш счёт: <b>{count}</b></p>
             <Button
                 style={{width: 150, height: 50}}

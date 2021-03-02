@@ -3,30 +3,53 @@ import {Button, Layout} from 'antd'
 import './LayoutCustom.css'
 import {Game} from '../Game/Game'
 import {useDispatch, useSelector} from 'react-redux'
-import {setGameMode, setIsLetterMode, setIsStarted} from '../../redux/gameReducer'
+import {
+    createCount,
+    setCount,
+    setCurrentGameNumber,
+    setGameMode,
+    setIsLetterMode,
+    setIsStarted
+} from '../../redux/gameReducer'
 import {RootStateType} from '../../redux/rootReducer'
 import useSound from 'use-sound'
-import {setIsModalVisible, setModalType} from '../../redux/appReducer'
+import {setIsModalVisible, setModalType, setVolume, setIsPlayClicked, setIsSoundEnabled} from '../../redux/appReducer'
 import {useEffect} from 'react'
 import {authLogout, cleanAuthError, setIsAuthenticated, setIsMessageShow} from '../../redux/authReducer'
 import {RecordsList} from '../RecordsList/RecordsList'
 import {SelectCustom} from '../SelectCustom/SelectCustom'
 
 // @ts-ignore
-import a1 from '../../assets/audio/a1.mp3'
+ import soundUrl from '../../assets/audio/m2.mp3'
+
 import {PlayMusic} from '../PlayMusic/PlayMusic'
+
 
 const {Header, Content, Footer} = Layout
 
 export const LayoutCustom = () => {
     const dispatch = useDispatch()
-
     const isStarted = useSelector((state: RootStateType) => state.game.isStarted)
+    const name = useSelector((state: RootStateType) => state.auth.name)
+    const isSoundEnabled = useSelector((state: RootStateType) => state.app.isSoundEnabled)
+    const volume = useSelector((state: RootStateType) => state.app.volume)
     const count = useSelector((state: RootStateType) => state.game.count)
     const userName = useSelector((state: RootStateType) => state.auth.name)
-    const [play] = useSound(a1)
+
+    const [play, {stop, isPlaying}] = useSound(soundUrl, {
+        volume: volume
+    })
     const startHandler = () => {
         dispatch(setIsStarted(true))
+
+    }
+
+    const reStartHandler = async () => {
+        dispatch(setModalType('gameOver'))
+        dispatch(setIsModalVisible(true))
+        await dispatch(createCount({count, name}))
+        dispatch(setCurrentGameNumber(0))
+        dispatch(setCount(0))
     }
 
     const registerHandler = () => {
@@ -47,12 +70,49 @@ export const LayoutCustom = () => {
         localStorage.removeItem('userData')
 
     }
+    const playToggleClick = () => {
+        dispatch(setIsPlayClicked())
+        isPlaying
+            ?
+            stop()
+            :
+            play()
+    }
+    const volumePlusClick = () => {
+        dispatch(setVolume(volume + 0.1))
+
+    }
+    const volumeMinusClick = () => {
+        dispatch(setVolume(volume - 0.1))
+
+    }
+    const toggleSoundsHandler = () => {
+        dispatch(setIsSoundEnabled(!isSoundEnabled))
+
+    }
+    const keyPressHandler = (e:KeyboardEvent) => {
+        e.preventDefault()
+        e.key === ' ' && !isStarted && startHandler()
+        e.key === "Escape" && reStartHandler()
+        e.key === "=" && volumePlusClick()
+        e.key === "-" && volumeMinusClick()
+        e.key === "0" && playToggleClick()
+        e.key === "9" && toggleSoundsHandler()
+    }
 
     useEffect(() => {
         const localStorageAuthData = JSON.parse(localStorage.getItem('userData') as string)
         localStorageAuthData && dispatch(setIsAuthenticated(localStorageAuthData))
     }, [])
 
+
+    useEffect(() => {
+        document.addEventListener('keydown', keyPressHandler, false)
+
+        return () => {
+            document.removeEventListener('keydown', keyPressHandler, false)
+        }
+    }, [keyPressHandler])
 
     return (
         <>
@@ -63,7 +123,6 @@ export const LayoutCustom = () => {
                     </div>
                     <h1 >MEMORY GAME</h1>
 
-                    <button onClick={()=>play()}>0</button>
                     <div  className='me'>
                         <div className='name'>{userName}</div>
 
@@ -119,8 +178,22 @@ export const LayoutCustom = () => {
                         }
 
                         <div className="controls">
-                            <PlayMusic/>
-
+                            <PlayMusic
+                                playToggleClick={playToggleClick}
+                                volumePlusClick={volumePlusClick}
+                                volumeMinusClick={volumeMinusClick}
+                                play={play}
+                                isPlaying={isPlaying}
+                                toggleSoundsHandler={toggleSoundsHandler}
+                            />
+                            <Button
+                                style={{width: 150, height: 50}}
+                                type="primary"
+                                onClick={reStartHandler}
+                                className="startButton"
+                            >
+                                Играть заново!
+                            </Button>
                         </div>
                     </div>
                 </Content>

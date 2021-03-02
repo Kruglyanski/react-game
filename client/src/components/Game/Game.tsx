@@ -2,6 +2,9 @@ import React, {useEffect, useState} from 'react'
 import {Card} from '../Card/Card'
 import {useDispatch, useSelector} from 'react-redux'
 import {RootStateType} from '../../redux/rootReducer'
+import {Button} from 'antd'
+import {createCount, setCount, setCurrentGameNumber, setIsStarted} from '../../redux/gameReducer'
+import {setIsModalVisible, setModalType} from '../../redux/appReducer'
 
 
 const modes = {['Легко']: 4, ['Средне']: 6, ['Тяжело']: 8, ['Ад']: 16}
@@ -24,6 +27,10 @@ export const Game = () => {
     const isStarted = useSelector((state: RootStateType) => state.game.isStarted)
     const gameMode = useSelector((state: RootStateType) => state.game.gameMode)
     const [isCardsHidden, setIsCardsHidden] = useState(false)
+    const count =useSelector((state: RootStateType) => state.game.count)
+    const name = useSelector((state: RootStateType) => state.auth.name)
+
+
     useEffect(() => {
 
         setShuffledNumbers(shuffle(numbers))
@@ -44,27 +51,30 @@ export const Game = () => {
 
 
     return (
+        <>
 
-        <div className="game">
-            {console.log('render')}
-            {shuffledNumbers.map(i => {
+            <div className="game">
 
-                if (i <= modes[gameMode]) {
-                    return <Card
-                        key={i}
-                        number={i}
-                        isCardsHidden={isCardsHidden}
-                        setIsCardsHidden={setIsCardsHidden}
-                        totalNumbers={modes[gameMode]}
-                    />
+                {shuffledNumbers.map(i => {
 
-                } else {
+                    if (i <= modes[gameMode]) {
+                        return <Card
+                            key={i}
+                            number={i}
+                            isCardsHidden={isCardsHidden}
+                            setIsCardsHidden={setIsCardsHidden}
+                            totalNumbers={modes[gameMode]}
+                        />
 
-                    return <div key={i}/>
+                    } else {
 
-                }
-            })}
+                        return <div key={i}/>
 
-        </div>
+                    }
+                })}
+
+            </div>
+        </>
+
     )
 }
