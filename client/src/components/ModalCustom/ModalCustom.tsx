@@ -32,7 +32,7 @@ export const ModalCustom:React.FC<PropType>  = (props) => {
                 onCancel={handleCancel}
                 footer={null}
                 closable={false}
-                bodyStyle={{borderRadius: 10}}
+                bodyStyle={{backgroundColor: '#e5e8e8'}}
             >
                 {props.children}
             </Modal>

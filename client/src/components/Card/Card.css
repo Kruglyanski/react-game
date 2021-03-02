@@ -1,14 +1,4 @@
-/*.card {*/
 
-/*    perspective: 1000;*/
-/*}*/
-
-
-
-/* flip on mouseclick */
-/*.card:hover .flippingContainer {*/
-/*    transform: rotateY(180deg);*/
-/*}*/
 .card.hiddenCard .flippingContainer{
     transform: rotateY(180deg);
 }
@@ -18,11 +8,11 @@
 }
 
 .card, .front, .back {
-    width: 120px;
-    height: 120px;
-    border-radius: 20px;
+    width: 4.69vw;
+    height: 4.69vw;
+    border-radius: 0.78vw;
     justify-self: center;
-    font-size: 70px;
+    font-size: 2.71vw;
     color: white;
 
 }
@@ -40,16 +30,27 @@
     position: absolute;
     top: 0;
     left: 0;
+    padding-top: 3px;
 }
 
 /* лицевая сторона размещена над обратной */
 .front {
     z-index: 2;
-    background-color: #0353f6;
+    background-color: #10d73c;
 }
 
 /* обратная, изначально скрытая сторона */
 .back {
     transform: rotateY(180deg);
-    background-color: #62e532;
+    background-color: #0454f3;
+}
+.dark .front {
+    z-index: 2;
+    background-color: #4ab67e;
+}
+
+/* обратная, изначально скрытая сторона */
+.dark .back {
+    transform: rotateY(180deg);
+    background-color: #81a2d9;
 }

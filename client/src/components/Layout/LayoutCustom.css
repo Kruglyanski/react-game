@@ -1,73 +1,86 @@
 .layout {
     min-height: 100vh;
-    min-width: 1024px;
+    min-width: 500px;
     height: auto;
 }
 
-header.ant-layout-header {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-
+.ant-layout-header {
+    height: 80px;
+    padding: 0;
 }
 
 header h1 {
+    font-size: 35px;
     width: 300px;
+    height: 30px;
     margin: 0 auto;
-
+    color: white;
 }
 
+.layout h3 {
+    color: #1f4d6a;
+}
 
 .ant-layout-header, .ant-layout-sider, .ant-menu-root {
-    background-color: #1f4d6a !important;
-
-}
-.logout {
-    float: left;
+    background-color: #1f4d6a!important;
 
 }
 
-.logout a {
-    color: #fff !important;
+.hello a {
     cursor: pointer;
 }
 
+.hello {
+    width: 500px;
+    height: 25px;
+    margin: 0 auto;
+    color: white;
 
-.me {
+}
+
+
+main.ant-layout-content {
+    background-color: #c4c8cb !important;
+     padding: 0!important;
+ }
+
+.site-layout-content {
+    padding: 20px;
+    min-width: 500px !important;
+    width: 70vw;
+    margin: 0 auto;
+    font-size: 18px;
+    color: #1f4d6a;
+}
+
+.optionsWrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 500px;
+    margin: 0 auto;
+}
+.symbolMode{
+    padding-left: 10px;
+}
+.themeMode{
+    padding-left: 10px;
+}
+.gameMode{
     justify-self: end;
 }
 
-.me .name {
-    color: white;
-    float: left;
-    margin-right: 35px;
+.ant-layout-footer {
+    padding: 0;
+    background-color: #c4c8cb !important;
+    border-top: 3px solid #1f4d6a;
 }
-.site-layout-content {
-    padding: 20px;
-    display:grid;
-    grid-template-columns: 1fr 2fr 1fr ;
-}
-.game {
-    display: grid;
-    padding: 20px;
-    grid-template-columns: repeat(6, 120px);
-    grid-template-rows: repeat(4, 120px);
-    grid-gap: 40px;
-    width: 970px;
-    height: 650px;
-    background-color: white;
-    border: 5px solid #1f4d6a;
-    border-radius: 20px;
-    margin: 0 auto;
-}
-
 
 .footerContent {
     width: 300px;
     height: auto;
     margin: 0 auto;
-
+    padding-bottom: 20px;
 }
-
 
 .rs {
     width: 68px;
@@ -77,28 +90,26 @@ header h1 {
     margin: 0 auto;
 }
 
-.startButton{
+.startButton {
     width: 200px;
-    height: 50px;
+    height: 35px;
+    font-size: 18px;
     justify-self: center;
-    background-color: blueviolet;
+    border-radius: 5px;
+    background-color: #1f6a26 !important;
+    outline: none;
+    border: none;
+}
+.finishButton {
+    width: 200px;
+    height: 35px;
+    font-size: 18px;
+    justify-self: center;
+    border-radius: 5px;
+    background-color: crimson !important;
     outline: none;
     border: none;
 }
 
-/*.uploadWrapper {*/
-/*    font-size: 12px;*/
-/*    margin-right: 35px;*/
-/*    float: left;*/
-/*    width: 125px;*/
 
-/*}*/
 
-/*.uploadWrapper button {*/
-/*    font-size: 12px;*/
-/*    width: 125px;*/
-/*}*/
-
-/*.me .ant-upload-list-text-container {*/
-/*    display: none;*/
-/*}*/

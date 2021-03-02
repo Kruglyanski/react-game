@@ -9,7 +9,7 @@ import {QuestionCircleOutlined} from '@ant-design/icons'
 import {useDispatch, useSelector} from 'react-redux'
 import {RootStateType} from '../../redux/rootReducer'
 import {authRegister, registrationFormChange, setIsMessageShow, setIsRegistered} from '../../redux/authReducer'
-import { setIsModalVisible } from '../../redux/appReducer'
+import {setIsModalVisible} from '../../redux/appReducer'
 
 
 const formItemLayout = {
@@ -55,7 +55,6 @@ export const RegistrationForm = () => {
     const registerHandler = async () => {
         await dispatch(authRegister(registrationForm))
         dispatch(setIsMessageShow(true))
-
 
 
     }
@@ -142,11 +141,8 @@ export const RegistrationForm = () => {
                     name="name"
                     label={
                         <span>
-          Name&nbsp;
-                            <Tooltip title="Введите ваше имя">
-            <QuestionCircleOutlined/>
-          </Tooltip>
-        </span>
+                        Имя
+                        </span>
                     }
                     rules={[
                         {

@@ -2,12 +2,9 @@ import React, {useEffect, useState} from 'react'
 import {Card} from '../Card/Card'
 import {useDispatch, useSelector} from 'react-redux'
 import {RootStateType} from '../../redux/rootReducer'
-import {Button} from 'antd'
-import {createCount, setCount, setCurrentGameNumber, setIsStarted} from '../../redux/gameReducer'
-import {setIsModalVisible, setModalType} from '../../redux/appReducer'
+import './Game.css'
 
-
-const modes = {['Легко']: 4, ['Средне']: 6, ['Тяжело']: 8, ['Ад']: 16}
+const modes = {['Легкая']: 4, ['Средняя']: 6, ['Тяжелая']: 8, ['Ад']: 16}
 const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
 
 
@@ -26,6 +23,7 @@ export const Game = () => {
     const dispatch = useDispatch()
     const isStarted = useSelector((state: RootStateType) => state.game.isStarted)
     const gameMode = useSelector((state: RootStateType) => state.game.gameMode)
+    const theme = useSelector((state: RootStateType) => state.app.theme)
     const [isCardsHidden, setIsCardsHidden] = useState(false)
     const count =useSelector((state: RootStateType) => state.game.count)
     const name = useSelector((state: RootStateType) => state.auth.name)
@@ -53,7 +51,7 @@ export const Game = () => {
     return (
         <>
 
-            <div className="game">
+            <div className={'game ' + (theme==='Тёмная' && 'dark')}>
 
                 {shuffledNumbers.map(i => {
 

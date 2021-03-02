@@ -9,6 +9,7 @@ import {GameOver} from './components/GameOver/GameOver'
 import {RegistrationForm} from './components/RegistrationForm/RegistrationForm'
 import {LoginForm} from './components/LoginForm/LoginForm'
 import { Message } from './components/Message/Message'
+import {RecordsList} from './components/RecordsList/RecordsList'
 
 
 
@@ -26,6 +27,7 @@ function App() {
                     {modalType === 'gameOver' && <GameOver/>}
                     {modalType === 'register' && <RegistrationForm/>}
                     {modalType === 'login' && <LoginForm/>}
+                    {modalType === 'records' && <RecordsList/>}
                 </ModalCustom>
             }
         </div>

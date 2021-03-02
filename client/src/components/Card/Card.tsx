@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import './Card.css'
+import {EyeInvisibleOutlined} from '@ant-design/icons'
 import {useDispatch, useSelector} from 'react-redux'
 import {
     createCount,
@@ -25,7 +26,8 @@ type PropsType = {
     setIsCardsHidden: (arg: boolean) => void
     totalNumbers: number
 }
-const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X']
+const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
+    'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X']
 
 export const Card: React.FC<PropsType> = ({number, isCardsHidden, setIsCardsHidden, totalNumbers}) => {
     const dispatch = useDispatch()
@@ -35,18 +37,19 @@ export const Card: React.FC<PropsType> = ({number, isCardsHidden, setIsCardsHidd
     const gameMode = useSelector((state: RootStateType) => state.game.gameMode)
     const isLetterMode = useSelector((state: RootStateType) => state.game.isLetterMode)
     const isSoundEnabled = useSelector((state: RootStateType) => state.app.isSoundEnabled)
+    const theme = useSelector((state: RootStateType) => state.app.theme)
     const volume = useSelector((state: RootStateType) => state.app.volume)
     const [isActiveClass, setIsActiveClass] = useState(false)
     const [isErrorClass, setIsErrorClass] = useState(false)
     let points: number
     switch (gameMode) {
-        case 'Легко':
+        case 'Легкая':
             points = 1
             break
-        case 'Средне':
+        case 'Средняя':
             points = 2
             break
-        case 'Тяжело':
+        case 'Тяжелая':
             points = 8
             break
         case 'Ад':
@@ -111,9 +114,7 @@ export const Card: React.FC<PropsType> = ({number, isCardsHidden, setIsCardsHidd
     }
 
     const classNames = ['card']
-
-
-
+    theme === 'Тёмная' && classNames.push('dark')
     isCardsHidden && classNames.push('hiddenCard')
     if (isActiveClass) {
         const i = classNames.indexOf('hiddenCard')
@@ -128,7 +129,7 @@ export const Card: React.FC<PropsType> = ({number, isCardsHidden, setIsCardsHidd
                     {!isLetterMode ? number : letters[number! - 1]}
                 </div>
                 <div className="back">
-
+                    <EyeInvisibleOutlined />
                 </div>
             </div>
         </div>

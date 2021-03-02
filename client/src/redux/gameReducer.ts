@@ -9,7 +9,7 @@ type StateType = {
     isStarted: boolean
     count: number
     records: Array<RecordsType>
-    gameMode: 'Средне' | 'Легко' | 'Тяжело' | 'Ад'
+    gameMode: 'Средняя' | 'Легкая' | 'Тяжелая' | 'Ад'
     isLetterMode: boolean
 }
 type RecordsType = {
@@ -31,7 +31,7 @@ const initialState: StateType = {
     isStarted: false,
     count: 0,
     records: [],
-    gameMode: 'Средне',
+    gameMode: 'Средняя',
     isLetterMode: false
 }
 
