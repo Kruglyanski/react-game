@@ -11,6 +11,13 @@ import {
 } from '../../redux/gameReducer'
 import {setIsModalVisible, setModalType} from '../../redux/appReducer'
 import {RootStateType} from '../../redux/rootReducer'
+// @ts-ignore
+import a1 from '../../assets/audio/a1.mp3'
+// @ts-ignore
+import a2 from '../../assets/audio/a2.mp3'
+// @ts-ignore
+import a7 from '../../assets/audio/a7.mp3'
+import useSound from 'use-sound'
 
 type PropsType = {
     number: number | null
@@ -25,41 +32,81 @@ export const Card: React.FC<PropsType> = ({number, isCardsHidden, setIsCardsHidd
     const currentGameNumber = useSelector((state: RootStateType) => state.game.currentGameNumber)
     const name = useSelector((state: RootStateType) => state.auth.name)
     const count = useSelector((state: RootStateType) => state.game.count)
+    const gameMode = useSelector((state: RootStateType) => state.game.gameMode)
     const isLetterMode = useSelector((state: RootStateType) => state.game.isLetterMode)
+    const isSoundEnabled = useSelector((state: RootStateType) => state.app.isSoundEnabled)
+    const volume = useSelector((state: RootStateType) => state.app.volume)
     const [isActiveClass, setIsActiveClass] = useState(false)
     const [isErrorClass, setIsErrorClass] = useState(false)
+    let points: number
+    switch (gameMode) {
+        case 'Легко':
+            points = 1
+            break
+        case 'Средне':
+            points = 2
+            break
+        case 'Тяжело':
+            points = 8
+            break
+        case 'Ад':
+            points = 16
+            break
+        default:
+            points = 2
+    }
+    const [playA7, {stop: stopA7}] = useSound(a7, {
+        volume
+    })
 
+    const [playA2, {stop: stopA2}] = useSound(a2, {
+        volume
+    })
 
+    const [playA3, {stop: stopA3}] = useSound(a1, {
+        volume
+    })
 
-    const cardHandler = () => {
-        if (currentGameNumber===1 && number === 1) {
+    const cardHandler = async () => {
+        if (currentGameNumber === 1 && number === 1) {
             setIsCardsHidden(true)
         }
 
 
-
         if (currentGameNumber === number) {
-            console.log('ok<KKKK')
+            isSoundEnabled && playA3()
+            await setTimeout(() => {
+                stopA3()
+            }, 1000)
             dispatch(setCurrentGameNumber(1))
             setIsActiveClass(true)
+
         } else {
-            dispatch(getRecords())
-            dispatch(setIsError(true))
-            dispatch(createCount({count, name}))
-            setIsActiveClass(true)
-            setIsErrorClass(true)
-            dispatch(setIsStarted(false))
+            isSoundEnabled && playA2()
+            await setTimeout(() => {
+                stopA2()
+                dispatch(setIsError(true))
+                dispatch(setIsStarted(false))
+
+            }, 1000)
             dispatch(setModalType('gameOver'))
             dispatch(setIsModalVisible(true))
+            await dispatch(createCount({count, name}))
+            dispatch(getRecords())
+            setIsActiveClass(true)
+            setIsErrorClass(true)
 
-            console.log('ne ok')
+
         }
-        if (currentGameNumber===totalNumbers) {
-            dispatch(setIsStarted(false))
-            console.log('okokok')
-            dispatch(setCount())
-            dispatch(setCurrentGameNumber(0))
 
+        if (currentGameNumber === totalNumbers) {
+            isSoundEnabled && playA7()
+            await setTimeout(() => {
+                stopA7()
+                dispatch(setIsStarted(false))
+            }, 1000)
+            dispatch(setCount(points))
+            dispatch(setCurrentGameNumber(0))
         }
     }
 
@@ -68,9 +115,9 @@ export const Card: React.FC<PropsType> = ({number, isCardsHidden, setIsCardsHidd
 
 
     isCardsHidden && classNames.push('hiddenCard')
-    if (isActiveClass){
+    if (isActiveClass) {
         const i = classNames.indexOf('hiddenCard')
-        classNames.splice(i,1)
+        classNames.splice(i, 1)
     }
     isErrorClass && classNames.push('errorCard')
 

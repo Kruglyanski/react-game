@@ -70,10 +70,10 @@ const gameReducer = createSlice({
             }
         },
 
-        setCount: (state) => {
+        setCount: (state, action) => {
             return {
                 ...state,
-                count: state.count + 1
+                count: !action.payload ? 0 : state.count + action.payload
             }
         },
 

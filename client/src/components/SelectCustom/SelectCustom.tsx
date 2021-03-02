@@ -28,7 +28,7 @@ const dispatch = useDispatch()
                 style={{ width: 120 }}
                 onChange={handleChange}
             >
-                {selectOptions.items.map(i =><Option value={i}>{i}</Option>)}
+                {selectOptions.items.map((i, index) =><Option key={index} value={i}>{i}</Option>)}
 
 
             </Select>

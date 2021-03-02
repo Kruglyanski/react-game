@@ -5,12 +5,16 @@ import {Game} from '../Game/Game'
 import {useDispatch, useSelector} from 'react-redux'
 import {setGameMode, setIsLetterMode, setIsStarted} from '../../redux/gameReducer'
 import {RootStateType} from '../../redux/rootReducer'
-
+import useSound from 'use-sound'
 import {setIsModalVisible, setModalType} from '../../redux/appReducer'
 import {useEffect} from 'react'
 import {authLogout, cleanAuthError, setIsAuthenticated, setIsMessageShow} from '../../redux/authReducer'
 import {RecordsList} from '../RecordsList/RecordsList'
 import {SelectCustom} from '../SelectCustom/SelectCustom'
+
+// @ts-ignore
+import a1 from '../../assets/audio/a1.mp3'
+import {PlayMusic} from '../PlayMusic/PlayMusic'
 
 const {Header, Content, Footer} = Layout
 
@@ -20,7 +24,7 @@ export const LayoutCustom = () => {
     const isStarted = useSelector((state: RootStateType) => state.game.isStarted)
     const count = useSelector((state: RootStateType) => state.game.count)
     const userName = useSelector((state: RootStateType) => state.auth.name)
-
+    const [play] = useSound(a1)
     const startHandler = () => {
         dispatch(setIsStarted(true))
     }
@@ -41,12 +45,14 @@ export const LayoutCustom = () => {
     const logoutHandler = () => {
         dispatch(authLogout())
         localStorage.removeItem('userData')
+
     }
 
     useEffect(() => {
         const localStorageAuthData = JSON.parse(localStorage.getItem('userData') as string)
         localStorageAuthData && dispatch(setIsAuthenticated(localStorageAuthData))
     }, [])
+
 
     return (
         <>
@@ -55,8 +61,10 @@ export const LayoutCustom = () => {
                     <div>
 
                     </div>
-                    <h1>MEMORY GAME</h1>
-                    <div className='me'>
+                    <h1 >MEMORY GAME</h1>
+
+                    <button onClick={()=>play()}>0</button>
+                    <div  className='me'>
                         <div className='name'>{userName}</div>
 
                         <div className='logout' onClick={() => console.log('exit')}>
@@ -111,7 +119,7 @@ export const LayoutCustom = () => {
                         }
 
                         <div className="controls">
-
+                            <PlayMusic/>
 
                         </div>
                     </div>
@@ -126,7 +134,6 @@ export const LayoutCustom = () => {
 
                 </Footer>
             </Layout>
-
         </>
 
     )

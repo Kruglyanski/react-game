@@ -3,12 +3,15 @@ import {createSlice} from '@reduxjs/toolkit'
 type StateType = {
     isModalVisible: boolean
     modalType: 'login' | 'register' | 'gameOver'
-
+    volume: number
+    isSoundEnabled: boolean
 }
 
 const initialState: StateType = {
     isModalVisible: false,
-    modalType: 'login'
+    modalType: 'login',
+    volume: 0.5,
+    isSoundEnabled: true
 
 
 }
@@ -29,6 +32,18 @@ const appReducer = createSlice({
                 ...state,
                 modalType: action.payload
             }
+        },
+        setVolume: (state, action) => {
+            return {
+                ...state,
+                volume: action.payload
+            }
+        },
+        setIsSoundEnabled: (state, action) => {
+            return {
+                ...state,
+                isSoundEnabled: action.payload
+            }
         }
 
 
@@ -36,6 +51,6 @@ const appReducer = createSlice({
     extraReducers: {}
 })
 
-export const {setIsModalVisible, setModalType } = appReducer.actions
+export const {setIsModalVisible, setModalType, setVolume, setIsSoundEnabled } = appReducer.actions
 
 export default appReducer.reducer
