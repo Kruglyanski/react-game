@@ -27,8 +27,8 @@ export const StartPageContent = () => {
             {
                 game.count === 0 && <>
                     <p>Для того, чтобы участвовать в статистике игры,
-                        <a href={'/'} onClick={loginHandler}>войдите</a> в систему или
-                        <a href={'/'} onClick={registerHandler}> зарегистрируйтесь</a>!</p>
+                        <a href={'#/'} onClick={loginHandler}> войдите</a> в систему или
+                        <a href={'#/'} onClick={registerHandler}> зарегистрируйтесь</a>!</p>
                     <h3>Правила игры:</h3>
                     <p>Перед началом игры можно выбрать опции игры, по умолчанию сложность
                         выставлена

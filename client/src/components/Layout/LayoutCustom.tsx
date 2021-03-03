@@ -137,7 +137,7 @@ export const LayoutCustom = () => {
                         </div>
                         <div className="stats">
                              <b style={{color: 'green'}}>Cчёт: {game.count}</b>
-                            <a href={'/'} onClick={recordsHandler}>&nbsp;&nbsp;&nbsp;<b>ТОП-10</b></a>
+                            <a href={'#/'} onClick={recordsHandler}>&nbsp;&nbsp;&nbsp;<b>ТОП-10</b></a>
                         </div>
                         {game.isStarted && <Button //кнопка завершить
                             style={{width: 100, height: 30, display: 'inline-block', fontSize: 14}}
@@ -180,12 +180,11 @@ export const LayoutCustom = () => {
 
                     </div>
                     <Popover content={'Ссылка на видео с пояснением'}>
-                        <a href={'/'}><YoutubeOutlined style={{fontSize: 40}}/></a>
+                        <a href={'https://youtu.be/XLozAFQmoI8'}><YoutubeOutlined style={{fontSize: 40}}/></a>
                     </Popover>
                 </Footer>
             </Layout>
         </>
-
     )
 }
 
