@@ -3,16 +3,16 @@ const router = Router()
 const Stat = require('../models/Stat')
 
 
-//api/count
+//api/count записываем счёт в БД
 router.post(
     '/count',
     async (req, res) =>{
         console.log(req.body)
         try {
-
+            const date = new Date().toLocaleString()
             const stat = new Stat({
                 count: req.body.count,
-                date: Date.now(),
+                date,
                 userName: req.body.name || 'Без авторизации'
             })
             await stat.save()
@@ -23,7 +23,7 @@ router.post(
 
     })
 
-// /api/getrecords
+// /api/getrecords получаем список рекордов для топ-10
 router.get(
     '/getrecords',
     async (req, res) =>{

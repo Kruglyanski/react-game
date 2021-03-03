@@ -22,7 +22,7 @@ export const Controls: React.FC<PropsType> = ({playToggleClick, volumePlusClick,
 
     useEffect(() => {
         isPlayClicked && !isPlaying && play()
-    }, [isPlaying, isPlayClicked])
+    }, [isPlaying, isPlayClicked, play])
 
     const toggleTheme = () => {
         theme === 'Светлая' && dispatch(setTheme('Тёмная'))

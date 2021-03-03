@@ -2,19 +2,16 @@ import React, {useEffect} from 'react'
 import {
     Form,
     Input,
-    Tooltip,
     Button
 } from 'antd'
-import {QuestionCircleOutlined} from '@ant-design/icons'
+
 import {useDispatch, useSelector} from 'react-redux'
 import {RootStateType} from '../../redux/rootReducer'
 import {
     authRegister,
     registrationFormChange,
     setIsMessageShow,
-    setIsRegistered,
     cleanRegistrationForm,
-    cleanLoginForm, cleanAuthError
 } from '../../redux/authReducer'
 import {setIsModalVisible} from '../../redux/appReducer'
 
@@ -51,6 +48,7 @@ const tailFormItemLayout = {
     }
 }
 
+// форма регистрации и обработчики
 
 export const RegistrationForm = () => {
     const [CustomForm] = Form.useForm()
@@ -73,7 +71,7 @@ export const RegistrationForm = () => {
             dispatch(setIsModalVisible(false))
         }
 
-    }, [isRegistered])
+    }, [isRegistered, dispatch])
 
 
     return (
@@ -173,7 +171,7 @@ export const RegistrationForm = () => {
                     <Button
                         type="primary"
                         htmlType="submit"
-                        style={{width: 150}}
+                        style={{width: 180}}
                         onClick={registerHandler}
                     >
                         Зарегистрироваться

@@ -116,6 +116,13 @@ const gameReducer = createSlice({
     }
 })
 
-export const {setCurrentGameNumber, setIsError, setIsStarted, setCount, setGameMode, setIsLetterMode} = gameReducer.actions
+export const {
+    setCurrentGameNumber,
+    setIsError,
+    setIsStarted,
+    setCount,
+    setGameMode,
+    setIsLetterMode
+} = gameReducer.actions
 
 export default gameReducer.reducer

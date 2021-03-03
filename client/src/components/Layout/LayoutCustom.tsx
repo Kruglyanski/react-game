@@ -8,74 +8,60 @@ import {
     createCount,
     setCurrentGameNumber,
     setGameMode,
-    setIsLetterMode,
     setIsStarted
 } from '../../redux/gameReducer'
 import {RootStateType} from '../../redux/rootReducer'
 import useSound from 'use-sound'
-import {setIsModalVisible, setModalType, setVolume, setIsPlayClicked, setIsSoundEnabled, setTheme} from '../../redux/appReducer'
+import {setIsModalVisible, setModalType, setVolume, setIsPlayClicked, setIsSoundEnabled} from '../../redux/appReducer'
 import {useEffect} from 'react'
-import {authLogout, cleanAuthError, setIsAuthenticated, setIsMessageShow, setIsRegistered} from '../../redux/authReducer'
-import {SelectCustom} from '../SelectCustom/SelectCustom'
+import {authLogout, setIsAuthenticated} from '../../redux/authReducer'
+
 // @ts-ignore
 import soundUrl from '../../assets/audio/m2.mp3'
 
 import {Controls} from '../Controls/Controls'
+import {StartPageContent} from '../StartPageContent/StartPageContent'
 
 
 const {Header, Content, Footer} = Layout
 
 export const LayoutCustom = () => {
     const dispatch = useDispatch()
-    const isStarted = useSelector((state: RootStateType) => state.game.isStarted)
-    const name = useSelector((state: RootStateType) => state.auth.name)
-    const count = useSelector((state: RootStateType) => state.game.count)
-    const isAuthenticated = useSelector((state: RootStateType) => state.auth.isAuthenticated)
-    const userName = useSelector((state: RootStateType) => state.auth.name)
-    const isSoundEnabled = useSelector((state: RootStateType) => state.app.isSoundEnabled)
-    const theme = useSelector((state: RootStateType) => state.app.theme)
-    const volume = useSelector((state: RootStateType) => state.app.volume)
+    const game = useSelector((state: RootStateType) => state.game)
+    const auth = useSelector((state: RootStateType) => state.auth)
+    const app = useSelector((state: RootStateType) => state.app)
 
+//добавляем музыку:
     const [play, {stop, isPlaying}] = useSound(soundUrl, {
-        volume: volume
+        volume: app.volume
     })
+//обработчик кнопки Начать
     const startHandler = () => {
         dispatch(setIsStarted(true))
 
     }
-
+//обработчик кнопки Завершить
     const reStartHandler = async () => {
         dispatch(setModalType('gameOver'))
         dispatch(setIsModalVisible(true))
-        await dispatch(createCount({count, name}))
+        await dispatch(createCount({count: game.count, name: auth.name}))
         dispatch(setGameMode('Средняя'))
         dispatch(setCurrentGameNumber(0))
 
     }
 
-    const registerHandler = () => {
-        dispatch(setModalType('register'))
-        dispatch(setIsModalVisible(true))
-        dispatch(setIsRegistered(false))
-
-
-    }
-
-    const loginHandler = () => {
-        dispatch(setModalType('login'))
-        dispatch(setIsModalVisible(true))
-        dispatch(cleanAuthError())
-    }
-
+//обработчик кнопки Выйти
     const logoutHandler = () => {
         dispatch(authLogout())
         localStorage.removeItem('userData')
 
     }
+//обработчик кнопки ТОП-10
     const recordsHandler = () => {
         dispatch(setModalType('records'))
         dispatch(setIsModalVisible(true))
     }
+//обработчик кнопки Вкл/Выкл музыку
     const playToggleClick = () => {
         dispatch(setIsPlayClicked())
         isPlaying
@@ -84,22 +70,25 @@ export const LayoutCustom = () => {
             :
             play()
     }
+//обработчик кнопки громкость +
     const volumePlusClick = () => {
-        dispatch(setVolume(volume + 0.1))
-
+        dispatch(setVolume(app.volume + 0.1))
     }
+//обработчик кнопки громкость -
     const volumeMinusClick = () => {
-        dispatch(setVolume(volume - 0.1))
+        dispatch(setVolume(app.volume - 0.1))
 
     }
+//обработчик кнопки Вкл/Выкл звуки
     const toggleSoundsHandler = () => {
-        dispatch(setIsSoundEnabled(!isSoundEnabled))
+        dispatch(setIsSoundEnabled(!app.isSoundEnabled))
 
     }
+//обработчик события keydown (горячие клавиши)
     const keyPressHandler = (e: KeyboardEvent) => {
         if (['Escape', ' ', '=', '-', '0', '9'].includes(e.key)) {
             e.preventDefault()
-            e.key === ' ' && !isStarted && startHandler()
+            e.key === ' ' && !game.isStarted && startHandler()
             e.key === 'Escape' && reStartHandler()
             e.key === '=' && volumePlusClick()
             e.key === '-' && volumeMinusClick()
@@ -107,40 +96,36 @@ export const LayoutCustom = () => {
             e.key === '9' && toggleSoundsHandler()
         }
     }
-
+//авторизация из LocalStorage
     useEffect(() => {
         const localStorageAuthData = JSON.parse(localStorage.getItem('userData') as string)
         localStorageAuthData && dispatch(setIsAuthenticated(localStorageAuthData))
-    }, [])
+    }, [dispatch])
 
-
+//добавляем прослушку событий нажатия клавиш
     useEffect(() => {
         document.addEventListener('keydown', keyPressHandler, false)
 
         return () => {
             document.removeEventListener('keydown', keyPressHandler, false)
         }
-    }, [keyPressHandler])
+    })
 
     return (
         <>
             <Layout className='layout'>
                 <Header >
-
-                    <h1 >SEQUENT GAME</h1>
-
-                    {isAuthenticated && <div
-                        className='hello'>
-                        Привет,&nbsp;{userName}!&nbsp;&nbsp;&nbsp;
+                    <h1>SEQUENT GAME</h1>
+                    {auth.isAuthenticated && <div className='hello'>
+                        Привет,&nbsp;{auth.name}!&nbsp;&nbsp;&nbsp;
                         <a href='/' onClick={logoutHandler}>Выйти</a>
                     </div>
                     }
-
                 </Header>
                 <Content style={{padding: '0 50px'}}>
                     <div className={'site-layout-content'}>
                         <div className="controls">
-                            <Controls
+                            <Controls //кнопки управления звуком и темой
                                 playToggleClick={playToggleClick}
                                 volumePlusClick={volumePlusClick}
                                 volumeMinusClick={volumeMinusClick}
@@ -149,12 +134,12 @@ export const LayoutCustom = () => {
                                 toggleSoundsHandler={toggleSoundsHandler}
                             />
 
-
                         </div>
                         <div className="stats">
-                             <b style={{color: 'green'}}>Cчёт: {count}</b> <a onClick={recordsHandler}>&nbsp;&nbsp;&nbsp;<b>ТОП-10</b></a>
+                             <b style={{color: 'green'}}>Cчёт: {game.count}</b>
+                            <a href={'/'} onClick={recordsHandler}>&nbsp;&nbsp;&nbsp;<b>ТОП-10</b></a>
                         </div>
-                        {isStarted && <Button
+                        {game.isStarted && <Button //кнопка завершить
                             style={{width: 100, height: 30, display: 'inline-block', fontSize: 14}}
                             type="primary"
                             onClick={reStartHandler}
@@ -164,90 +149,21 @@ export const LayoutCustom = () => {
                         </Button>}
                         <br/>
                         {
-                            isStarted
+                            game.isStarted
                                 ?
-                                    <Game/>
+                                    <Game/>//игровое поле
                                 :
+
                                 <div>
-                                    {
-                                        count === 0 && <>
-                                            <p>Для того, чтобы участвовать в статистике игры, <a
-                                                onClick={loginHandler}>войдите</a> в систему или<a
-                                                onClick={registerHandler}> зарегистрируйтесь</a>!</p>
-                                            <h3>Правила игры:</h3>
-                                            <p>Перед началом игры можно выбрать опции игры, по умолчанию сложность
-                                                выставлена
-                                                в значение "Средне", а символы в значение "Цифры", также можно сменить
-                                                оформление игрового поля. В зависимости от выбранной сложности
-                                                за победу в каждом уровне будет начисляться соответственно 1, 2, 8 и 16
-                                                очков.
-                                                После нажатия кнопки "Начать" появится игровое поле с карточками, на
-                                                которых
-                                                изображены
-                                                цифры, либо буквы латинского алфавита. Время отображения - 3 секунды,
-                                                далее
-                                                карточки
-                                                закрываются. Необходимо по памяти последовательно кликнуть все карточки
-                                                в
-                                                порядке
-                                                возрастания номеров или индексов букв в алфавите. Клик по неверной
-                                                карточке -
-                                                проигрыш.
-
-                                            </p>
-                                            <h3>Выберите опции игры:</h3>
-                                            <div className="optionsWrapper">
-
-                                                <div className="gameMode">Сложность: &nbsp;
-                                                    <SelectCustom
-                                                        selectOptions={{
-                                                            items: ['Легкая', 'Средняя', 'Тяжелая', 'Ад'],
-                                                            default: 1
-                                                        }}
-                                                        handleChange={(value) => dispatch(setGameMode(value))}
-                                                    />
-                                                </div>
-                                                <div className="themeMode">Тема: &nbsp;
-                                                    <SelectCustom
-                                                        selectOptions={{
-                                                            items: ['Тёмная', 'Светлая'],
-                                                            default: 1
-                                                        }}
-                                                        handleChange={(value) => dispatch(setTheme(value))}
-                                                    />
-                                                </div>
-                                                <div className="symbolMode">Символы: &nbsp;
-                                                    <SelectCustom
-                                                        selectOptions={{
-                                                            items: ['Цифры', 'Буквы'],
-                                                            default: 0
-                                                        }}
-                                                        handleChange={(value) => dispatch(setIsLetterMode(value))}
-                                                    />
-                                                </div>
-                                            </div>
-
-                                            <br/>
-                                            <h3>Горячие клавиши:</h3>
-                                            <p>
-                                                <b>"Space"</b> - начать игру&nbsp;
-                                                <b>"Escape"</b> - завершить игру<br/>
-                                                <b>"="</b> - добавить громкость&nbsp;
-                                                <b>"-"</b> - убавить громкость<br/>
-                                                <b>"0"</b> - Вкл./откл. звуки&nbsp;
-                                                <b>"9"</b> - Вкл./откл. музыку
-                                            </p>
-                                        </>
-                                    }
+                                    <StartPageContent/>
                                     <br/>
-                                    <Button
+                                    <Button // кнопка начать / дальше
                                         style={{width: 150, height: 50}}
                                         type="primary"
                                         onClick={startHandler}
                                         className="startButton"
                                     >
-
-                                        {count === 0 ? 'Начать' : 'Дальше'}
+                                        {game.count === 0 ? 'Начать' : 'Дальше'}
                                     </Button>
                                 </div>
                         }

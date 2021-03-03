@@ -8,11 +8,11 @@ const PORT = process.env.PORT || 5000
 
 
 app.use(express.json({extended: true}))
-app.use('/api/', require('./routes/auth'))
+app.use('/api/', require('./routes/auth')) //импортируем роуты
 app.use('/api/', require('./routes/stat'))
 
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production') { //статика для продакшена
     app.use('/', express.static(path.join(__dirname, 'client', 'build')))
 
     app.get('*', (req, res) => {

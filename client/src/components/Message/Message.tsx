@@ -1,10 +1,8 @@
 import React from 'react'
 import {RootStateType} from '../../redux/rootReducer'
 import {useSelector} from 'react-redux'
-import { Alert } from 'antd';
-
-
-
+import { Alert } from 'antd'
+// сообщение о результатах авторизации
 export const Message = () => {
     const isRegistered = useSelector((state: RootStateType) => state.auth.isRegistered)
     const isAuthenticated = useSelector((state: RootStateType) => state.auth.isAuthenticated)
@@ -12,16 +10,7 @@ export const Message = () => {
     const registerMessage = useSelector((state: RootStateType) => state.auth.registerMessage)
     const authError = useSelector((state: RootStateType) => state.auth.authError)
     const modalType = useSelector((state: RootStateType) => state.app.modalType)
-
-
-
     return (
-    //     <>
-    //     <Alert message="Success Text" type="success" />
-    //     <Alert message="Info Text" type="info" />
-    //     <Alert message="Warning Text" type="warning" />
-    //     <Alert message="Error Text" type="error" />
-    // </>
         <>
             {
                 isMessageShow
@@ -30,11 +19,9 @@ export const Message = () => {
                         {
                             modalType === 'login'
                                 ? isAuthenticated
-                                ?<Alert message='Вход выполнен' type="success" closable/>
-                                :authError && <Alert message={authError} type="error" closable/>
+                                ? <Alert message='Вход выполнен' type="success" closable/>
+                                : authError && <Alert message={authError} type="error" closable/>
                                 : null
-
-
                         }
                         {
                             modalType === 'register'

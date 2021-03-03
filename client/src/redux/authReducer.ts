@@ -123,12 +123,6 @@ const authReducer = createSlice({
             }
         },
 
-        setIsCustomModalVisible: (state, action) => {
-            return {
-                ...state,
-                isModalVisible: action.payload
-            }
-        },
 
         authLogout: (state) => {
             return {
@@ -163,15 +157,6 @@ const authReducer = createSlice({
             }
 
         },
-        // [setMe.fulfilled.type]: (state, action) => {
-        //
-        //     return {
-        //         ...state,
-        //         avatar: action.payload.avatar ? action.payload.avatar.split('\\').join('/').slice(3) : '',
-        //         name: action.payload.name
-        //     }
-        //
-        // },
 
         [authLogin.fulfilled.type]: (state, action) => {
 

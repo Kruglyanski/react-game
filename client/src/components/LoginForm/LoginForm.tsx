@@ -2,6 +2,7 @@ import React, {useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {Button, Form, Input} from 'antd'
 import {UserOutlined, LockOutlined} from '@ant-design/icons'
+import './LoginForm.css'
 import {
     authLogin,
     cleanAuthError,
@@ -12,24 +13,20 @@ import {
 import {RootStateType} from '../../redux/rootReducer'
 import {setIsModalVisible} from '../../redux/appReducer'
 
-
+// форма входа и обработчики
 export const LoginForm: React.FC = () => {
 
     const dispatch = useDispatch()
     const loginForm = useSelector((state: RootStateType) => state.auth.loginForm)
     const isAuthenticated = useSelector((state: RootStateType) => state.auth.isAuthenticated)
 
-
     const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(loginFormChange({[event.target.name]: event.target.value}))
     }
 
     const loginHandler = async () => {
-
         await dispatch(authLogin(loginForm))
         dispatch(setIsMessageShow(true))
-
-       // dispatch(cleanAuthError())
 
     }
 
@@ -38,7 +35,7 @@ export const LoginForm: React.FC = () => {
         && dispatch(setIsModalVisible(false))
         && dispatch(cleanLoginForm())
         && dispatch(cleanAuthError())
-    }, [isAuthenticated])
+    }, [isAuthenticated, dispatch])
 
     return (
         <div className="form-wrapper">

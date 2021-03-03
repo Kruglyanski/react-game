@@ -6,12 +6,14 @@ import './RecordsList.css'
 import {Button} from 'antd'
 import { setIsModalVisible } from '../../redux/appReducer'
 
+// таблица рекордов топ-10
+
 export const RecordsList = () => {
     const dispatch = useDispatch()
     const records = useSelector((state: RootStateType) => state.game.records)
     useEffect(() =>{
         dispatch(getRecords())
-    }, [])
+    }, [dispatch])
     return (
         <div className="records">
             <h4>Лучшие игроки:</h4>

@@ -13,14 +13,12 @@ export const Game = () => {
     const theme = useSelector((state: RootStateType) => state.app.theme)
     const [isCardsHidden, setIsCardsHidden] = useState(false)
 
-//Запускаем 3-х секундный отчет при начале игры
+//Запускаем 3-х секундный отчет при запуске игры
 
     useEffect(() => {
         setShuffledNumbers(shuffle(numbers))
         if (isStarted) {
-            console.log('use', isStarted)
             const timeout = setTimeout(() => {
-                console.log('timeout')
                 setIsCardsHidden(true)
             }, 3000)
             return () => clearTimeout(timeout)

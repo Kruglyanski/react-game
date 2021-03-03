@@ -1,7 +1,5 @@
 import React from 'react'
 import { Select } from 'antd'
-import {useDispatch} from 'react-redux'
-import { setGameMode } from '../../redux/gameReducer'
 const { Option } = Select
 
 type SelectOptionsType = {
@@ -14,13 +12,8 @@ type PropsType = {
     handleChange: (value: string) => void
 }
 
-
 export const SelectCustom: React.FC<PropsType> = ({selectOptions, handleChange}) => {
-const dispatch = useDispatch()
-    // const handleChange = (value: string) => {
-    //
-    //     dispatch(setGameMode(value))
-    // }
+
     return (
         <>
             <Select

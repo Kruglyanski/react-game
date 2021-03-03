@@ -18,11 +18,9 @@ export const ModalCustom:React.FC<PropType>  = (props) => {
         dispatch(setIsModalVisible(false))
     }
 
-
     const handleCancel = () => {
         dispatch(setIsModalVisible(false))
     }
-
 
     return (
         <>
