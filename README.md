@@ -11,7 +11,7 @@
 Backend организован с помощью NodeJS, Express, MongoDb. 
 
 Демо развернуто на сервисе Heroku:
-        https://cryptic-mountain-62611.herokuapp.com/
+        https://kruglyanski-react-game.herokuapp.com/
 
 
 https://www.youtube.com/watch?v=XLozAFQmoI8 небольшой обзор
