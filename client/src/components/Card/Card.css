@@ -1,55 +1,53 @@
-
-.card.hiddenCard .flippingContainer{
+.card.hiddenCard .flippingContainer {
     transform: rotateY(180deg);
 }
 
-.errorCard .front{
-    background-color: crimson!important;
+.errorCard .front {
+    background-color: crimson !important;
 }
 
 .card, .front, .back {
-    width: 4.69vw;
-    height: 4.69vw;
-    border-radius: 0.78vw;
+    width: 6.56vw;
+    height: 6.56vw;
+    border-radius: 1.1vw;
     justify-self: center;
-    font-size: 2.71vw;
+    font-size: 3.8vw;
     color: white;
 
 }
 
-/* здесь находится скорость перевертывания */
 .flippingContainer {
     transition: 0.6s;
     transform-style: preserve-3d;
     position: relative;
 }
 
-/* скройте обратную сторону во время переворота */
 .front, .back {
     backface-visibility: hidden;
     position: absolute;
     top: 0;
     left: 0;
-    padding-top: 3px;
+    padding-top: 4px;
 }
 
-/* лицевая сторона размещена над обратной */
+
 .front {
     z-index: 2;
     background-color: #10d73c;
 }
 
-/* обратная, изначально скрытая сторона */
+
 .back {
     transform: rotateY(180deg);
     background-color: #0454f3;
 }
+
 .dark .front {
     z-index: 2;
     background-color: #4ab67e;
 }
 
-/* обратная, изначально скрытая сторона */
+
 .dark .back {
     transform: rotateY(180deg);
     background-color: #81a2d9;

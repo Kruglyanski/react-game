@@ -62,13 +62,7 @@ export const authRegister = createAsyncThunk(
 
     }
 )
-// export const setMe = createAsyncThunk(
-//     'authReducer/setMe',
-//     async (userId: string) => {
-//         return await api.getAvatar(userId)
-//             .then((res) => res && res.json())
-//     }
-// )
+
 
 const authReducer = createSlice({
     name: 'authReducer',
@@ -106,6 +100,26 @@ const authReducer = createSlice({
             return {
                 ...state,
                 authError: ''
+            }
+        },
+
+        cleanRegistrationForm: (state) => {
+            return {
+                ...state,
+                registrationForm: {
+                    email: '',
+                    password: '',
+                    name: ''
+                }
+            }
+        },
+        cleanLoginForm: (state) => {
+            return {
+                ...state,
+                loginForm: {
+                    email: '',
+                    password: ''
+                }
             }
         },
 
@@ -191,8 +205,9 @@ export const {
     setIsAuthenticated,
     setIsRegistered,
     setIsMessageShow,
-    setIsCustomModalVisible,
-    cleanAuthError
+    cleanRegistrationForm,
+    cleanAuthError,
+    cleanLoginForm
 } = authReducer.actions
 
 export default authReducer.reducer

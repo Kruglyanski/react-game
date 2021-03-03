@@ -10,7 +10,11 @@ router.post(
         console.log(req.body)
         try {
 
-            const stat = new Stat({count: req.body.count, date: Date.now(),  userName: req.body.name || 'Неизвестный'})
+            const stat = new Stat({
+                count: req.body.count,
+                date: Date.now(),
+                userName: req.body.name || 'Без авторизации'
+            })
             await stat.save()
             res.status(201).json({message: "Счет успешно записан", ok: true})
         } catch (e) {

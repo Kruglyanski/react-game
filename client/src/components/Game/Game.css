@@ -1,20 +1,18 @@
 .game {
     display: grid;
-    padding: 0.78vw;
-    grid-template-columns: repeat(6, 4.69vw);
-    grid-template-rows: repeat(4, 4.69vw);
-    grid-gap: 0.78vw;
-    width: 33.85vw;
-    height: 22.92vw;
+    padding: 1.1vw;
+    grid-template-columns: repeat(6, 6.56vw);
+    grid-template-rows: repeat(4, 6.56vw);
+    grid-gap: 1.1vw;
+    width: 47.39vw;
+    height: 32.1vw;
     background-color: #e5e8e8;
     border: 3px solid #1f4d6a;
-    border-radius: 0.78vw;
-    margin: 0 auto;
+    border-radius: 1.1vw;
+    margin: 10px auto 0;
 }
 
 .game.dark {
-
     background-color: #1f4d6a;
     border: 3px solid #e5e8e8;
-
 }

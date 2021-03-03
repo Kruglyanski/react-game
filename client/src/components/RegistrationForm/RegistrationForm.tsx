@@ -8,7 +8,14 @@ import {
 import {QuestionCircleOutlined} from '@ant-design/icons'
 import {useDispatch, useSelector} from 'react-redux'
 import {RootStateType} from '../../redux/rootReducer'
-import {authRegister, registrationFormChange, setIsMessageShow, setIsRegistered} from '../../redux/authReducer'
+import {
+    authRegister,
+    registrationFormChange,
+    setIsMessageShow,
+    setIsRegistered,
+    cleanRegistrationForm,
+    cleanLoginForm, cleanAuthError
+} from '../../redux/authReducer'
 import {setIsModalVisible} from '../../redux/appReducer'
 
 
@@ -43,6 +50,8 @@ const tailFormItemLayout = {
         }
     }
 }
+
+
 export const RegistrationForm = () => {
     const [CustomForm] = Form.useForm()
     const dispatch = useDispatch()
@@ -59,9 +68,10 @@ export const RegistrationForm = () => {
 
     }
     useEffect(() => {
-        isRegistered
-        && dispatch(setIsModalVisible(false))
-
+        if(isRegistered){
+            dispatch(cleanRegistrationForm())
+            dispatch(setIsModalVisible(false))
+        }
 
     }, [isRegistered])
 

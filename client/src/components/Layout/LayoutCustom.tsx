@@ -6,7 +6,6 @@ import {Game} from '../Game/Game'
 import {useDispatch, useSelector} from 'react-redux'
 import {
     createCount,
-    setCount,
     setCurrentGameNumber,
     setGameMode,
     setIsLetterMode,
@@ -16,10 +15,8 @@ import {RootStateType} from '../../redux/rootReducer'
 import useSound from 'use-sound'
 import {setIsModalVisible, setModalType, setVolume, setIsPlayClicked, setIsSoundEnabled, setTheme} from '../../redux/appReducer'
 import {useEffect} from 'react'
-import {authLogout, cleanAuthError, setIsAuthenticated, setIsMessageShow} from '../../redux/authReducer'
-import {RecordsList} from '../RecordsList/RecordsList'
+import {authLogout, cleanAuthError, setIsAuthenticated, setIsMessageShow, setIsRegistered} from '../../redux/authReducer'
 import {SelectCustom} from '../SelectCustom/SelectCustom'
-
 // @ts-ignore
 import soundUrl from '../../assets/audio/m2.mp3'
 
@@ -32,12 +29,12 @@ export const LayoutCustom = () => {
     const dispatch = useDispatch()
     const isStarted = useSelector((state: RootStateType) => state.game.isStarted)
     const name = useSelector((state: RootStateType) => state.auth.name)
+    const count = useSelector((state: RootStateType) => state.game.count)
     const isAuthenticated = useSelector((state: RootStateType) => state.auth.isAuthenticated)
+    const userName = useSelector((state: RootStateType) => state.auth.name)
     const isSoundEnabled = useSelector((state: RootStateType) => state.app.isSoundEnabled)
     const theme = useSelector((state: RootStateType) => state.app.theme)
     const volume = useSelector((state: RootStateType) => state.app.volume)
-    const count = useSelector((state: RootStateType) => state.game.count)
-    const userName = useSelector((state: RootStateType) => state.auth.name)
 
     const [play, {stop, isPlaying}] = useSound(soundUrl, {
         volume: volume
@@ -51,6 +48,7 @@ export const LayoutCustom = () => {
         dispatch(setModalType('gameOver'))
         dispatch(setIsModalVisible(true))
         await dispatch(createCount({count, name}))
+        dispatch(setGameMode('Средняя'))
         dispatch(setCurrentGameNumber(0))
 
     }
@@ -58,14 +56,15 @@ export const LayoutCustom = () => {
     const registerHandler = () => {
         dispatch(setModalType('register'))
         dispatch(setIsModalVisible(true))
-        dispatch(cleanAuthError())
+        dispatch(setIsRegistered(false))
+
+
     }
 
     const loginHandler = () => {
         dispatch(setModalType('login'))
         dispatch(setIsModalVisible(true))
         dispatch(cleanAuthError())
-        dispatch(setIsMessageShow(false))
     }
 
     const logoutHandler = () => {
@@ -149,36 +148,25 @@ export const LayoutCustom = () => {
                                 isPlaying={isPlaying}
                                 toggleSoundsHandler={toggleSoundsHandler}
                             />
-                            <br/>
-                            <br/>
+
 
                         </div>
                         <div className="stats">
-                            Ваш текущий счёт: <b>{count}</b> <a onClick={recordsHandler}>&nbsp;&nbsp;&nbsp;<b>ТОП-10</b></a>
+                             <b style={{color: 'green'}}>Cчёт: {count}</b> <a onClick={recordsHandler}>&nbsp;&nbsp;&nbsp;<b>ТОП-10</b></a>
                         </div>
+                        {isStarted && <Button
+                            style={{width: 100, height: 30, display: 'inline-block', fontSize: 14}}
+                            type="primary"
+                            onClick={reStartHandler}
+                            className={'finishButton'}
+                        >
+                            Завершить
+                        </Button>}
                         <br/>
                         {
                             isStarted
                                 ?
-                                <div>
-
-                                    <Button
-                                        style={{width: 150, height: 50}}
-                                        type="primary"
-                                        onClick={reStartHandler}
-                                        className={'finishButton'}
-                                    >
-                                        Завершить
-                                    </Button>
-                                    <br/>
-                                    <br/>
                                     <Game/>
-                                    <br/>
-                                    <br/>
-
-
-                                </div>
-
                                 :
                                 <div>
                                     {
@@ -251,12 +239,14 @@ export const LayoutCustom = () => {
                                             </p>
                                         </>
                                     }
+                                    <br/>
                                     <Button
                                         style={{width: 150, height: 50}}
                                         type="primary"
                                         onClick={startHandler}
                                         className="startButton"
                                     >
+
                                         {count === 0 ? 'Начать' : 'Дальше'}
                                     </Button>
                                 </div>

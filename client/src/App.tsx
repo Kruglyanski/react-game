@@ -16,6 +16,7 @@ import {RecordsList} from './components/RecordsList/RecordsList'
 function App() {
     const isModalVisible = useSelector((state: RootStateType) => state.app.isModalVisible)
     const modalType = useSelector((state: RootStateType) => state.app.modalType)
+    const isMessageShow = useSelector((state: RootStateType) => state.auth.isMessageShow)
 
 
     return (

@@ -1,24 +1,26 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import './Card.css'
+import {letters} from '../../utils/consts'
+import {getPoints} from '../../utils/funcs'
 import {EyeInvisibleOutlined} from '@ant-design/icons'
-import {useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector} from 'react-redux'
 import {
     createCount,
     getRecords,
     setCount,
-    setCurrentGameNumber,
+    setCurrentGameNumber, setGameMode,
     setIsError,
     setIsStarted
 } from '../../redux/gameReducer'
 import {setIsModalVisible, setModalType} from '../../redux/appReducer'
 import {RootStateType} from '../../redux/rootReducer'
+import useSound from 'use-sound'
 // @ts-ignore
 import a1 from '../../assets/audio/a1.mp3'
 // @ts-ignore
 import a2 from '../../assets/audio/a2.mp3'
 // @ts-ignore
 import a7 from '../../assets/audio/a7.mp3'
-import useSound from 'use-sound'
 
 type PropsType = {
     number: number | null
@@ -26,95 +28,71 @@ type PropsType = {
     setIsCardsHidden: (arg: boolean) => void
     totalNumbers: number
 }
-const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
-    'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X']
 
 export const Card: React.FC<PropsType> = ({number, isCardsHidden, setIsCardsHidden, totalNumbers}) => {
     const dispatch = useDispatch()
-    const currentGameNumber = useSelector((state: RootStateType) => state.game.currentGameNumber)
+    const game = useSelector((state: RootStateType) => state.game)
     const name = useSelector((state: RootStateType) => state.auth.name)
-    const count = useSelector((state: RootStateType) => state.game.count)
-    const gameMode = useSelector((state: RootStateType) => state.game.gameMode)
-    const isLetterMode = useSelector((state: RootStateType) => state.game.isLetterMode)
-    const isSoundEnabled = useSelector((state: RootStateType) => state.app.isSoundEnabled)
-    const theme = useSelector((state: RootStateType) => state.app.theme)
-    const volume = useSelector((state: RootStateType) => state.app.volume)
+    const app = useSelector((state: RootStateType) => state.app)
     const [isActiveClass, setIsActiveClass] = useState(false)
     const [isErrorClass, setIsErrorClass] = useState(false)
-    let points: number
-    switch (gameMode) {
-        case 'Легкая':
-            points = 1
-            break
-        case 'Средняя':
-            points = 2
-            break
-        case 'Тяжелая':
-            points = 8
-            break
-        case 'Ад':
-            points = 16
-            break
-        default:
-            points = 2
-    }
+
+//добавляем звуки в игру:
     const [playA7, {stop: stopA7}] = useSound(a7, {
-        volume
+        volume: app.volume
     })
-
     const [playA2, {stop: stopA2}] = useSound(a2, {
-        volume
+        volume: app.volume
     })
-
     const [playA3, {stop: stopA3}] = useSound(a1, {
-        volume
+        volume: app.volume
     })
 
+//обработка кликов по карточкам:
     const cardHandler = async () => {
-        if (currentGameNumber === 1 && number === 1) {
+        if (game.currentGameNumber === 1 && number === 1) {    //начало игры
             setIsCardsHidden(true)
         }
 
-
-        if (currentGameNumber === number) {
-            isSoundEnabled && playA3()
+        if (game.currentGameNumber === number) {               //удачный клик
+            app.isSoundEnabled && playA3()
             await setTimeout(() => {
                 stopA3()
             }, 1000)
             dispatch(setCurrentGameNumber(1))
             setIsActiveClass(true)
 
-        } else {
-            isSoundEnabled && playA2()
+        } else {                                               //неудачныйный клик
+            app.isSoundEnabled && playA2()
             await setTimeout(() => {
                 stopA2()
                 dispatch(setIsError(true))
                 dispatch(setIsStarted(false))
+                dispatch(setGameMode('Средняя'))
 
             }, 1000)
             dispatch(setModalType('gameOver'))
             dispatch(setIsModalVisible(true))
-            await dispatch(createCount({count, name}))
+            await dispatch(createCount({count: game.count, name}))
             dispatch(getRecords())
             setIsActiveClass(true)
             setIsErrorClass(true)
 
-
         }
 
-        if (currentGameNumber === totalNumbers) {
-            isSoundEnabled && playA7()
+        if (game.currentGameNumber === totalNumbers) {         //конец раунда
+            app.isSoundEnabled && playA7()
             await setTimeout(() => {
                 stopA7()
                 dispatch(setIsStarted(false))
             }, 1000)
-            dispatch(setCount(points))
+            dispatch(setCount(getPoints(game.gameMode)))
             dispatch(setCurrentGameNumber(0))
         }
     }
-
+// присваиваем классы карточке в соответствии с результатом клика и выбранной темой
     const classNames = ['card']
-    theme === 'Тёмная' && classNames.push('dark')
+    app.theme === 'Тёмная' && classNames.push('dark')
     isCardsHidden && classNames.push('hiddenCard')
     if (isActiveClass) {
         const i = classNames.indexOf('hiddenCard')
@@ -126,7 +104,7 @@ export const Card: React.FC<PropsType> = ({number, isCardsHidden, setIsCardsHidd
         <div className={classNames.join(' ')} onClick={cardHandler}>
             <div className="flippingContainer">
                 <div className="front">
-                    {!isLetterMode ? number : letters[number! - 1]}
+                    {!game.isLetterMode ? number : letters[number! - 1]}
                 </div>
                 <div className="back">
                     <EyeInvisibleOutlined />

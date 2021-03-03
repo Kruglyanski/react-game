@@ -4,6 +4,7 @@ import {PlayCircleOutlined, CaretUpOutlined, CaretDownOutlined, BellOutlined, Bg
 import {RootStateType} from '../../redux/rootReducer'
 import {useDispatch, useSelector} from 'react-redux'
 import {setTheme} from '../../redux/appReducer'
+import './Controls.css'
 
 type PropsType = {
     playToggleClick: () => void
@@ -13,6 +14,7 @@ type PropsType = {
     isPlaying: boolean
     toggleSoundsHandler: () => void
 }
+// компонент контролов для управления звуком и темой
 export const Controls: React.FC<PropsType> = ({playToggleClick, volumePlusClick, volumeMinusClick, isPlaying, play, toggleSoundsHandler}) => {
     const dispatch = useDispatch()
     const isPlayClicked = useSelector((state: RootStateType) => state.app.isPlayClicked)
@@ -28,7 +30,7 @@ export const Controls: React.FC<PropsType> = ({playToggleClick, volumePlusClick,
     }
 
     return (
-        <>
+        <div className='controls'>
             <Popover content={'Музыка: on/off'}>
                 <Button
                     shape="circle"
@@ -36,7 +38,6 @@ export const Controls: React.FC<PropsType> = ({playToggleClick, volumePlusClick,
                     icon={<PlayCircleOutlined/>}
                 />
             </Popover>
-
             <Popover content={'Громкость -'}>
                 <Button
                     shape="circle"
@@ -49,7 +50,6 @@ export const Controls: React.FC<PropsType> = ({playToggleClick, volumePlusClick,
                     shape="circle"
                     onClick={volumePlusClick}
                     icon={<CaretUpOutlined/>}
-
                 />
             </Popover>
             <Popover content={'Звуки: on/off'}>
@@ -66,8 +66,7 @@ export const Controls: React.FC<PropsType> = ({playToggleClick, volumePlusClick,
                     icon={<BgColorsOutlined/>}
                 />
             </Popover>
-
-        </>
+        </div>
 
     )
 }

@@ -1,6 +1,6 @@
 import {LoginFormType, RegistrationFormType} from '../redux/authReducer'
 import {CreateCountType} from '../redux/gameReducer'
-
+//api представлен в виде объектов с методами, отдельный метод - отдельный  запрос на сервер
 export const api = {
     register(registrationForm: RegistrationFormType) {
         console.log(registrationForm)
@@ -11,7 +11,6 @@ export const api = {
             },
             body: JSON.stringify(registrationForm)
         }).then(function (response) {
-            console.log(response)
             return response
         }).catch(function (error) {
             console.log(error)
@@ -28,7 +27,6 @@ export const api = {
                 ...loginForm
             })
         }).then(function (response) {
-            console.log(response)
             return response
         }).catch(function (error) {
             console.log(error)
@@ -45,14 +43,12 @@ export const api = {
                 count, name
             })
         }).then(function (response) {
-            console.log(response)
             return response
         }).catch(function (error) {
             console.log(error)
         })
     },
     records() {
-
         return fetch('/api/getrecords', {
             method: 'GET',
             headers: {
@@ -60,12 +56,11 @@ export const api = {
             }
 
         }).then(function (response) {
-            console.log(response)
             return response
         })
             .catch(function (error) {
                 console.log(error)
             })
-    },
+    }
 
 }

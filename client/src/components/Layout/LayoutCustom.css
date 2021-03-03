@@ -22,7 +22,7 @@ header h1 {
 }
 
 .ant-layout-header, .ant-layout-sider, .ant-menu-root {
-    background-color: #1f4d6a!important;
+    background-color: #1f4d6a !important;
 
 }
 
@@ -38,11 +38,15 @@ header h1 {
 
 }
 
+.stats {
+    width: 200px;
+    display: inline-block;
+}
 
 main.ant-layout-content {
     background-color: #c4c8cb !important;
-     padding: 0!important;
- }
+    padding: 0 !important;
+}
 
 .site-layout-content {
     padding: 20px;
@@ -59,13 +63,16 @@ main.ant-layout-content {
     width: 500px;
     margin: 0 auto;
 }
-.symbolMode{
+
+.symbolMode {
     padding-left: 10px;
 }
-.themeMode{
+
+.themeMode {
     padding-left: 10px;
 }
-.gameMode{
+
+.gameMode {
     justify-self: end;
 }
 
@@ -100,6 +107,7 @@ main.ant-layout-content {
     outline: none;
     border: none;
 }
+
 .finishButton {
     width: 200px;
     height: 35px;

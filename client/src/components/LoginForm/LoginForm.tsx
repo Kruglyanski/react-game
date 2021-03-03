@@ -5,6 +5,7 @@ import {UserOutlined, LockOutlined} from '@ant-design/icons'
 import {
     authLogin,
     cleanAuthError,
+    cleanLoginForm,
     loginFormChange,
     setIsMessageShow
 } from '../../redux/authReducer'
@@ -27,15 +28,16 @@ export const LoginForm: React.FC = () => {
 
         await dispatch(authLogin(loginForm))
         dispatch(setIsMessageShow(true))
-        dispatch(setIsMessageShow(false))
-        dispatch(cleanAuthError())
 
-        dispatch(setIsModalVisible(false))
+       // dispatch(cleanAuthError())
 
     }
 
     useEffect(() =>{
-        isAuthenticated && dispatch(setIsModalVisible(false))
+        isAuthenticated
+        && dispatch(setIsModalVisible(false))
+        && dispatch(cleanLoginForm())
+        && dispatch(cleanAuthError())
     }, [isAuthenticated])
 
     return (
@@ -81,7 +83,7 @@ export const LoginForm: React.FC = () => {
                         className="login-form-button"
                         onClick={loginHandler}
                     >
-                       Войти
+                        Войти
                     </Button>
 
                 </Form.Item>
