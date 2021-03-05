@@ -1,0 +1,54 @@
+.card.hiddenCard .flippingContainer {
+    transform: rotateY(180deg);
+}
+
+.errorCard .front {
+    background-color: crimson !important;
+}
+
+.card, .front, .back {
+    width: 6.56vw;
+    height: 6.56vw;
+    border-radius: 1.1vw;
+    justify-self: center;
+    font-size: 3.8vw;
+    color: white;
+
+}
+
+.flippingContainer {
+    transition: 0.6s;
+    transform-style: preserve-3d;
+    position: relative;
+}
+
+.front, .back {
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding-top: 4px;
+}
+
+
+.front {
+    z-index: 2;
+    background-color: #10d73c;
+}
+
+
+.back {
+    transform: rotateY(180deg);
+    background-color: #0454f3;
+}
+
+.dark .front {
+    z-index: 2;
+    background-color: #4ab67e;
+}
+
+
+.dark .back {
+    transform: rotateY(180deg);
+    background-color: #81a2d9;
+}
