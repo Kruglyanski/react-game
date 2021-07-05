@@ -174,10 +174,6 @@ export const LayoutCustom = () => {
                 <Footer style={{textAlign: 'center'}} >
                     <div className="footerContent">
                         Created by <a href="https://github.com/Kruglyanski">Roman Kruglyansky</a> 2021
-<!--                         <a href="https://rs.school/js/">
-                            <div className="rs"/>
-                        </a>
- -->
                     </div>
                     <Popover content={'Ссылка на видео с пояснением'}>
                         <a href={'https://youtu.be/XLozAFQmoI8'}><YoutubeOutlined style={{fontSize: 40}}/></a>
